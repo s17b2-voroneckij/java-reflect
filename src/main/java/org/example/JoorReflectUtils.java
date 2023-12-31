@@ -3,8 +3,6 @@ package org.example;
 import org.apache.commons.math3.util.Pair;
 import org.joor.Reflect;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
@@ -13,7 +11,7 @@ import java.util.stream.Collectors;
 import static org.joor.Reflect.*;
 
 
-public class JReflectUtils {
+public class JoorReflectUtils {
     public static Map<String, Object> toMap(Object a) {
         return on(a)
                 .fields()

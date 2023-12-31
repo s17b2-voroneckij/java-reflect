@@ -34,7 +34,7 @@ public class Bench {
 
     @Benchmark
     public void joorConvert(Blackhole bh) {
-        JReflectUtils.convert(a, b, Map.of(), Map.of());
+        JoorReflectUtils.convert(a, b, Map.of(), Map.of());
         bh.consume(b);
     }
 
@@ -96,7 +96,7 @@ public class Bench {
         bh.consume(b);
     }
 
-    BiConsumer<A, B> converter = JReflectUtils.getConverter(new A(null, null, 0.0), B.class, Map.of());
+    BiConsumer<A, B> converter = JoorReflectUtils.getConverter(new A(null, null, 0.0), B.class, Map.of());
 
     @Benchmark
     public void reflectCodeGen(Blackhole bh) {
@@ -104,7 +104,7 @@ public class Bench {
         bh.consume(b);
     }
 
-    final private BiConsumer<A, B> converter_final = JReflectUtils.getConverter(new A(null, null, 0.0), B.class, Map.of());
+    final private BiConsumer<A, B> converter_final = JoorReflectUtils.getConverter(new A(null, null, 0.0), B.class, Map.of());
 
     @Benchmark
     public void reflectCodeGenFinal(Blackhole bh) {
