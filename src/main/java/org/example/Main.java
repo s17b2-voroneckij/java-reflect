@@ -21,5 +21,11 @@ public class Main {
         var converter = JReflectUtils.getConverter(a, B.class, Map.of());
         converter.accept(a, b);
         System.out.println(b);
+
+        ReflectUtils.Converter<A, B> conv = new ReflectUtils.Converter<>(A.class, B.class, Map.of(), Map.of());
+        System.out.println("now testing fast converter");
+        b = new B();
+        conv.convertFastNoTransform(a, b);
+        System.out.println(b);
     }
 }

@@ -47,6 +47,12 @@ public class Bench {
     }
 
     @Benchmark
+    public void reflectConvertFaster(Blackhole bh) throws IllegalAccessException {
+        conv.convertFastNoTransform(a, b);
+        bh.consume(b);
+    }
+
+    @Benchmark
     public void reflectConvertFastNewObject(Blackhole bh) throws IllegalAccessException {
         b = new B();
         conv.convert(a, b);

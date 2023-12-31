@@ -1,8 +1,11 @@
 package org.example;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -21,6 +24,7 @@ public class ReflectUtils {
 
     static class Converter<T, G> {
         private final Map<Field, Field> field_mapping = new HashMap<>();
+        private final List<Pair<Field, Field>> field_list;
         private final Map<String, Function<Object, Object>> converters;
 
         Converter(Class<T> clazz_from, Class<G> clazz_to, Map<String, String> field_name_mapping,
@@ -43,6 +47,11 @@ public class ReflectUtils {
                         }
                     }
             );
+            field_list = field_mapping
+                    .entrySet()
+                    .stream()
+                    .map(entry -> Pair.of(entry.getKey(), entry.getValue()))
+                    .collect(Collectors.toUnmodifiableList());
         }
 
         public void convert(T from, G to) throws IllegalAccessException {
@@ -53,6 +62,12 @@ public class ReflectUtils {
                 } else {
                     entry.getValue().set(to, entry.getKey().get(from));
                 }
+            }
+        }
+
+        public void convertFastNoTransform(T from, G to) throws IllegalAccessException {
+            for (var pair : field_list) {
+                pair.getRight().set(to, pair.getLeft().get(from));
             }
         }
     }
